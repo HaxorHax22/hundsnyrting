@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hundasnyrting og þjálfun Ellenar</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* Custom styles to enhance the design */
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scrollbar from animations */
+        }
+
+        /* Custom pink color palette */
+        .bg-custom-pink { background-color: #FFF0F5; }
+        .text-custom-pink-dark { color: #E75480; }
+        .bg-custom-pink-dark { background-color: #E75480; }
+        .border-custom-pink-dark { border-color: #E75480; }
+        .hover\:bg-custom-pink-darker:hover { background-color: #D73768; }
+
+        /* --- UPDATED: More Dramatic Scroll Animations --- */
+        .reveal, .reveal-left, .reveal-right, .reveal-zoom {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal { transform: translateY(50px); }
+        .reveal-left { transform: translateX(-100px); }
+        .reveal-right { transform: translateX(100px); }
+        .reveal-zoom { transform: scale(0.8); }
+
+        .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-zoom.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Ken Burns effect for the hero background */
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('img/hero-section.jpg');
+            background-size: cover;
+            background-position: center center;
+            animation: kenburns 25s infinite ease-out;
+            z-index: 0;
+        }
+
+        @keyframes kenburns {
+            0% { transform: scale(1.05) rotate(1deg); }
+            50% { transform: scale(1.15) rotate(-1deg); }
+            100% { transform: scale(1.05) rotate(1deg); }
+        }
+
+        /* Hero section overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 192, 203, 0.5);
+            z-index: 1;
+        }
+        
+        /* Paw print background pattern */
+        .paw-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'%3E%3Cpath d='M23.3,65.9c0,0-2.3,0-3.3-0.8c-1-0.8-1.5-2.3-1.5-2.3s-0.2-3.3,1.3-4.4c1.5-1.1,3.4-0.3,3.4-0.3s2.3,0.5,3.1,1.8 C27.1,61.3,26.7,65.9,23.3,65.9z M45.2,72.4c0,0-2.3,0-3.3-0.8c-1-0.8-1.5-2.3-1.5-2.3s-0.2-3.3,1.3-4.4c1.5-1.1,3.4-0.3,3.4-0.3 s2.3,0.5,3.1,1.8C49.1,67.8,48.6,72.4,45.2,72.4z M67.2,65.9c0,0-2.3,0-3.3-0.8c-1-0.8-1.5-2.3-1.5-2.3s-0.2-3.3,1.3-4.4 c1.5-1.1,3.4-0.3,3.4-0.3s2.3,0.5,3.1,1.8C71,61.3,70.6,65.9,67.2,65.9z M34.3,49.5c0,0-2.3,0-3.3-0.8c-1-0.8-1.5-2.3-1.5-2.3 s-0.2-3.3,1.3-4.4c1.5-1.1,3.4-0.3,3.4-0.3s2.3,0.5,3.1,1.8C38.1,44.9,37.7,49.5,34.3,49.5z M56.2,56c0,0-2.3,0-3.3-0.8 c-1-0.8-1.5-2.3-1.5-2.3s-0.2-3.3,1.3-4.4c1.5-1.1,3.4-0.3,3.4-0.3s2.3,0.5,3.1,1.8C60.1,51.4,59.6,56,56.2,56z M45.2,35.6 c-5.9,0-10.7,4.8-10.7,10.7c0,5.9,7.5,13.7,10.7,13.7s10.7-7.8,10.7-13.7C55.9,40.4,51.1,35.6,45.2,35.6z' fill='%23FFD1DC' opacity='0.2'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* --- UPDATED: More Dramatic Hover Effects --- */
+        .service-card, .testimonial-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .service-card:hover, .testimonial-card:hover {
+            transform: translateY(-15px) rotate(2deg);
+            box-shadow: 0 25px 30px -10px rgba(231, 84, 128, 0.3);
+        }
+        
+        .gallery-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .gallery-image {
+            transition: transform 0.4s ease;
+        }
+        .gallery-image-container:hover .gallery-image {
+            transform: scale(1.15);
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(231, 84, 128, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .gallery-image-container:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .focus-icon-container:hover .focus-icon {
+            animation: bounce 0.6s ease;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .cta-button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px -5px rgba(231, 84, 128, 0.5);
+        }
+
+        /* NEW: Improved Header Link Styling */
+        .nav-link {
+            position: relative;
+            padding-bottom: 8px;
+            font-weight: 500;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: #E75480;
+            transition: width 0.3s ease-in-out;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-custom-pink text-gray-800">
+
+    <!-- Header -->
+    <header id="header" class="bg-white/80 backdrop-blur-md shadow-md fixed w-full top-0 z-50 transition-all duration-300 px-6 md:px-8 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                <img src="img/logo.jpg" alt="Logo" class="h-20 w-20 rounded-full border-3 border-custom-pink-dark shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <span class="text-xl font-bold text-custom-pink-dark hidden sm:block">Hundasnyrting Ellenar</span>
+            </a>
+            <nav class="hidden md:flex space-x-10 items-center">
+                <!-- UPDATED: Added nav-link class for new styling -->
+                <a href="#heim" class="nav-link text-gray-600 hover:text-custom-pink-dark transition duration-300">Heim</a>
+                <a href="#um-okkur" class="nav-link text-gray-600 hover:text-custom-pink-dark transition duration-300">Um Okkur</a>
+                <a href="#thjonusta" class="nav-link text-gray-600 hover:text-custom-pink-dark transition duration-300">Þjónusta</a>
+                <a href="#samband" class="nav-link text-gray-600 hover:text-custom-pink-dark transition duration-300">Hafa Samband</a>
+            </nav>
+            <a href="https://noona.is/ellenhundasnyrtir" target="_blank" class="hidden md:block bg-custom-pink-dark text-white px-5 py-2 rounded-full hover:bg-custom-pink-darker transition duration-300 shadow-lg cta-button">Bóka á Noona</a>
+            <button id="mobile-menu-button" class="md:hidden text-2xl text-custom-pink-dark">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md">
+            <a href="#heim" class="block py-3 px-6 text-gray-700 hover:bg-custom-pink">Heim</a>
+            <a href="#um-okkur" class="block py-3 px-6 text-gray-700 hover:bg-custom-pink">Um Okkur</a>
+            <a href="#thjonusta" class="block py-3 px-6 text-gray-700 hover:bg-custom-pink">Þjónusta</a>
+            <a href="#samband" class="block py-3 px-6 text-gray-700 hover:bg-custom-pink">Hafa Samband</a>
+            <div class="p-4">
+                <a href="https://noona.is/ellenhundasnyrtir" target="_blank" class="block text-center bg-custom-pink-dark text-white px-5 py-2 rounded-full hover:bg-custom-pink-darker transition duration-300 shadow-lg cta-button">Bóka á Noona</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="heim" class="h-screen flex items-center justify-center text-white text-center hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="relative z-10 p-4 reveal">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">Dekraðu við besta vininn</h1>
+                <p class="text-lg md:text-2xl mb-8 drop-shadow-md">Fagleg hundasnyrting og þjálfun í Reykjavík</p>
+                <a href="#thjonusta" class="bg-white text-custom-pink-dark px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition duration-300 shadow-xl cta-button">Skoða Þjónustu</a>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="um-okkur" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-wrap items-center -mx-4">
+                    <div class="w-full md:w-1/2 px-4 mb-8 md:mb-0 reveal-left">
+                        <img src="img/ellen-about.jpg" alt="Ellen" class="rounded-2xl shadow-xl w-full">
+                    </div>
+                    <div class="w-full md:w-1/2 px-4 reveal-right">
+                        <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-4">Hæ, ég heiti Ellen!</h2>
+                        <p class="text-gray-600 mb-4">
+                            Frá því ég man eftir mér hef ég haft brennandi áhuga á dýrum, sérstaklega hundum. Sú ástríða leiddi mig á þá braut að læra hundasnyrtingu og -þjálfun. Ég er IACP vottaður hundaþjálfari og legg áherslu á jákvæðar og árangursríkar aðferðir.
+                        </p>
+                        <p class="text-gray-600">
+                            Markmið mitt er að hver hundur sem kemur til mín fái bestu mögulegu meðhöndlun í rólegu og öruggu umhverfi. Ég hlakka til að hitta þig og þinn besta vin!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="thjonusta" class="py-20 bg-custom-pink paw-pattern">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal-zoom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-2">Okkar Þjónusta</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Við bjóðum upp á alhliða þjónustu til að tryggja að hundurinn þinn líti vel út og líði vel.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg service-card reveal-left">
+                        <div class="text-5xl text-custom-pink-dark mb-4 text-center"><i class="fas fa-cut"></i></div>
+                        <h3 class="text-2xl font-bold text-center mb-3">Alhliða Hundasnyrting</h3>
+                        <p class="text-gray-600 text-center">
+                            Full snyrting sem inniheldur þvott, blástur, klippingu eftir þörfum, klóaklippingu og eyrnahreinsun. Við notum aðins hágæða vörur sem henta feldi hundsins þíns.
+                        </p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg service-card reveal-right">
+                        <div class="text-5xl text-custom-pink-dark mb-4 text-center"><i class="fas fa-dog"></i></div>
+                        <h3 class="text-2xl font-bold text-center mb-3">Hundaþjálfun</h3>
+                        <p class="text-gray-600 text-center">
+                            Ertu með óþekkan hvolp eða viltu kenna gamla hundi nýja siði? Við bjóðum upp á einstaklingsmiðaða þjálfun sem styrkir sambandið milli þín og hundsins þíns.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section id="aherslur" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal-zoom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-2">Okkar Áherslur</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Það sem skiptir okkur mestu máli í allri okkar vinnu.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-10 text-center">
+                    <div class="reveal focus-icon-container">
+                        <div class="bg-custom-pink-dark text-white text-4xl w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-4 focus-icon"><i class="fas fa-heart"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Kærleiksrík Meðhöndlun</h3>
+                        <p class="text-gray-600">Sérhver hundur fær einstaklingsmiðaða athygli og er meðhöndlaður af alúð og virðingu.</p>
+                    </div>
+                    <div class="reveal focus-icon-container" style="transition-delay: 200ms;">
+                        <div class="bg-custom-pink-dark text-white text-4xl w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-4 focus-icon"><i class="fas fa-leaf"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Gæðavörur</h3>
+                        <p class="text-gray-600">Við notum einungis hágæða, náttúrulegar snyrtivörur sem eru mildar fyrir feld og húð.</p>
+                    </div>
+                    <div class="reveal focus-icon-container" style="transition-delay: 400ms;">
+                        <div class="bg-custom-pink-dark text-white text-4xl w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-4 focus-icon"><i class="fas fa-award"></i></div>
+                        <h3 class="text-xl font-bold mb-2">Fagleg Þekking</h3>
+                        <p class="text-gray-600">Með vottaða þekkingu í bæði snyrtingu og þjálfun getur þú treyst okkur fyrir þínum besta vini.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Price List Section -->
+        <section id="verdskra" class="py-20 bg-custom-pink">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal-zoom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-2">Verðskrá</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Verð miðast við stærð og ástand felds. Hafðu samband fyrir nánari upplýsingar.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8 reveal">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-bold text-custom-pink-dark mb-4 border-b-2 border-custom-pink-dark pb-2">Snyrting</h4>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex justify-between"><span>Lítill hundur (allt innifalið)</span> <span class="font-semibold">frá 10.900 kr.</span></li>
+                                <li class="flex justify-between"><span>Meðalstór hundur (allt innifalið)</span> <span class="font-semibold">frá 13.900 kr.</span></li>
+                                <li class="flex justify-between"><span>Stór hundur (allt innifalið)</span> <span class="font-semibold">frá 16.900 kr.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-custom-pink-dark mb-4 border-b-2 border-custom-pink-dark pb-2">Annað</h4>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex justify-between"><span>Þvottur & blástur</span> <span class="font-semibold">frá 6.500 kr.</span></li>
+                                <li class="flex justify-between"><span>Klóaklipping</span> <span class="font-semibold">2.500 kr.</span></li>
+                                <li class="flex justify-between"><span>Þjálfun (einkatími)</span> <span class="font-semibold">9.000 kr./klst</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="umsagnir" class="py-20 bg-white paw-pattern">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal-zoom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-2">Það Sem Viðskiptavinir Segja</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg testimonial-card reveal-left">
+                        <p class="text-gray-600 italic mb-4">"Alveg frábær þjónusta! Hvolpurinn minn kom glansandi fínn og alsæll heim. Mæli 100% með Ellen."</p>
+                        <p class="font-bold text-right text-custom-pink-dark">- Anna og Snúður</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg testimonial-card reveal-right">
+                        <p class="text-gray-600 italic mb-4">"Ellen er algjör fagmaður. Hún er svo róleg og góð við hundana og maður sér hvað henni þykir vænt um þá. Topp einkunn!"</p>
+                        <p class="font-bold text-right text-custom-pink-dark">- Jón og Freyja</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="galleri" class="py-20 bg-custom-pink">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal-zoom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-2">Ánægðir Viðskiptavinir</h2>
+                    <p class="text-gray-600">Skoðaðu myndir af nokkrum af okkar loðnu vinum.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="reveal gallery-image-container" style="transition-delay: 0ms;"><div class="gallery-overlay"><i class="fas fa-paw"></i></div><img src="img/dog1.jpg" alt="Groomed dog 1" class="shadow-md gallery-image w-full h-full object-cover"></div>
+                    <div class="reveal gallery-image-container" style="transition-delay: 100ms;"><div class="gallery-overlay"><i class="fas fa-paw"></i></div><img src="img/dog2.jpg" alt="Groomed dog 2" class="shadow-md gallery-image w-full h-full object-cover"></div>
+                    <div class="reveal gallery-image-container" style="transition-delay: 200ms;"><div class="gallery-overlay"><i class="fas fa-paw"></i></div><img src="img/dog3.jpg" alt="Groomed dog 3" class="shadow-md gallery-image w-full h-full object-cover"></div>
+                    <div class="reveal gallery-image-container" style="transition-delay: 300ms;"><div class="gallery-overlay"><i class="fas fa-paw"></i></div><img src="img/dog4.jpg" alt="Groomed dog 4" class="shadow-md gallery-image w-full h-full object-cover"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="samband" class="py-20 bg-white paw-pattern">
+            <div class="container mx-auto px-6 text-center">
+                <div class="mb-12 reveal-zoom">
+                    <h2 class="text-3xl md:text-4xl font-bold text-custom-pink-dark mb-2">Hafðu Samband</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Einfaldasta leiðin til að bóka er í gegnum Noona. Fyrir aðrar fyrirspurnir, ekki hika við að hafa samband!</p>
+                </div>
+                <div class="max-w-3xl mx-auto">
+                    <!-- Noona Booking Button -->
+                    <div class="reveal mb-6">
+                        <a href="https://noona.is/ellenhundasnyrtir" target="_blank" class="block bg-custom-pink-dark text-white w-full py-4 px-6 rounded-full text-xl font-bold cta-button">
+                            <i class="fas fa-calendar-check mr-3"></i>Bóka Tíma á Noona
+                        </a>
+                    </div>
+                    
+                    <p class="text-gray-700 my-8 reveal">Skoðaðu nýjustu myndirnar og fylgstu með á samfélagsmiðlum!</p>
+
+                    <!-- Social and Contact Links -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="reveal" style="transition-delay: 200ms;">
+                            <a href="https://instagram.com/hundathjalfun.ellenar" target="_blank" class="block bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-transparent hover:border-custom-pink-dark">
+                                <i class="fab fa-instagram text-4xl text-custom-pink-dark mb-3"></i>
+                                <h3 class="text-xl font-bold">Instagram</h3>
+                            </a>
+                        </div>
+                        <div class="reveal" style="transition-delay: 300ms;">
+                             <a href="#" target="_blank" class="block bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-transparent hover:border-custom-pink-dark">
+                                <i class="fab fa-facebook text-4xl text-custom-pink-dark mb-3"></i>
+                                <h3 class="text-xl font-bold">Facebook</h3>
+                            </a>
+                        </div>
+                        <div class="reveal" style="transition-delay: 400ms;">
+                            <a href="tel:6636763" class="block bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-transparent hover:border-custom-pink-dark">
+                                <i class="fas fa-phone text-4xl text-custom-pink-dark mb-3"></i>
+                                <h3 class="text-xl font-bold">663 6763</h3>
+                            </a>
+                        </div>
+                        <div class="reveal" style="transition-delay: 500ms;">
+                            <a href="mailto:ellenhelgas@gmail.com" class="block bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-transparent hover:border-custom-pink-dark">
+                                <i class="fas fa-envelope text-4xl text-custom-pink-dark mb-3"></i>
+                                <h3 class="text-xl font-bold">Senda Póst</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 Hundasnyrting og þjálfun Ellenar. Allur réttur áskilinn.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // JavaScript for scroll animations
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Change header padding on scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('py-4');
+            } else {
+                header.classList.add('py-4');
+                header.classList.remove('py-2');
+            }
+        });
+
+        // NEW: JavaScript for active nav link on scroll
+        const sections = document.querySelectorAll('main section');
+        const navLinks = document.querySelectorAll('header nav a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.6 // Section is considered active when 60% is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+    </script>
+
+</body>
+</html>
