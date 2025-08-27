@@ -25,6 +25,12 @@
             max-width: 100vw;
             width: 100%;
         }
+        
+        /* Ensure smooth scrolling only at page level */
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
 
         /* Custom pink color palette */
         .bg-custom-pink { background-color: #FFF0F5; }
@@ -39,15 +45,22 @@
             transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        /* Prevent horizontal overflow */
+        /* Prevent horizontal overflow and ensure smooth page scrolling */
         html, body {
             overflow-x: hidden;
             max-width: 100%;
+            overflow-y: visible;
         }
         
         .container {
             max-width: 100%;
-            overflow-x: hidden;
+            overflow: visible;
+        }
+        
+        /* Ensure all sections allow smooth scrolling */
+        section, div, .container, .reveal, .reveal-left, .reveal-right, .reveal-zoom {
+            overflow: visible;
+            scroll-behavior: auto;
         }
         .reveal { transform: translateY(50px); }
         .reveal-left { transform: translateX(-100px); }
@@ -62,7 +75,7 @@
         /* Ken Burns effect for the hero background */
         .hero-bg {
             position: relative;
-            overflow: hidden;
+            overflow: visible;
         }
         .hero-bg::before {
             content: '';
@@ -204,6 +217,12 @@
             bottom: 0 !important;
         }
         
+        /* Ensure header doesn't interfere with page scrolling */
+        #header {
+            overflow: visible;
+            scroll-behavior: auto;
+        }
+        
         #mobile-menu > div {
             position: absolute !important;
             top: 50% !important;
@@ -278,9 +297,9 @@
         </div>
     </div>
 
-    <main class="overflow-x-hidden">
+    <main class="overflow-visible">
         <!-- Hero Section -->
-        <section id="heim" class="h-screen flex items-center justify-center text-white text-center hero-bg overflow-hidden">
+        <section id="heim" class="h-screen flex items-center justify-center text-white text-center hero-bg overflow-visible">
             <div class="hero-overlay"></div>
             <div class="relative z-10 p-4 reveal">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">Dekraðu við besta vininn</h1>
@@ -579,7 +598,7 @@
             }
         });
 
-        // JavaScript for scroll animations
+        // JavaScript for scroll animations - simplified for smooth scrolling
         const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom');
 
         const revealOnScroll = () => {
@@ -592,7 +611,8 @@
             });
         };
 
-        window.addEventListener('scroll', revealOnScroll);
+        // Use passive scroll listener for better performance
+        window.addEventListener('scroll', revealOnScroll, { passive: true });
         revealOnScroll();
 
         // Change header padding and background on scroll
@@ -612,32 +632,35 @@
             }
         });
 
-        // NEW: JavaScript for active nav link on scroll
-        const sections = document.querySelectorAll('main section');
+        // Simplified intersection observer for active nav links only
+        const sections = document.querySelectorAll('main section[id]'); // Only sections with IDs
         const navLinks = document.querySelectorAll('header nav a');
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.6 // Section is considered active when 60% is visible
-        };
+        if (sections.length > 0 && navLinks.length > 0) {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.3 // Reduced threshold for better performance
+            };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href').substring(1) === entry.target.id) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetId = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${targetId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
             });
-        }, observerOptions);
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        }
 
     </script>
 
